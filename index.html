@@ -33,11 +33,43 @@
     <div id="loading"></div>
     
     <script>
-        // Hide loading screen after 100ms with no animation
-        setTimeout(() => {
-            const loading = document.getElementById('loading');
-            loading.classList.add('hidden');
-        }, 100);
+        const websites = [
+            {url: "https://venmo.com/u/mhusa", probability: 1.1},
+            {url: "https://media1.giphy.com/media/v1.Y2lkPTZjMDliOTUyNWN1b2swMHRwMDBmOG45eDdvbDZteDl2YmwwNGlhY2cwbGFva2prayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WEiKBTaESHHhK/giphy.gif", probability: 1.0},
+            {url: "https://pbs.twimg.com/media/BG48ENgCEAAIDl9.jpg", probability: 1.0},
+            {url: "https://i.pinimg.com/736x/09/e3/1c/09e31cc0b0fcf784b511c63a31c960c1.jpg", probability: 1.0},
+            {url: "https://media.tenor.com/6MexCtAuY0QAAAAM/i-just-lost-my-dog-white-dog.gif", probability: 1.0},
+            {url: "https://www.instagram.com/chasing.cupcake?igsh=NTh5YWhiYXhsYTlv&utm_source=qr", probability: 1.1},
+            {url: "https://media0.giphy.com/media/v1.Y2lkPTZjMDliOTUyYTU2Z25wd2J6NDh5c3Y2M3F4dnBmdXVoczBqcTVlZWZ1bzRid29rNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Mot2nz72u4HFHEw3Fr/giphy.gif", probability: 1.0},
+            {url: "https://f8n-ipfs-production.imgix.net/QmVGn2Wn2SdWPoqcTsZZmGzyHZLhczcvLLj9xDkikhknpn/nft.jpg", probability: 1.0},
+
+           ]
+
+            // 1) Normalize probabilities
+            const total = websites.reduce((sum, item) => sum + item.probability, 0);
+
+            const normalized = websites.map(item => ({
+            url: item.url,
+            weight: item.probability / total
+            }));
+
+            // 2) Weighted random selection
+            const rand = Math.random();
+            let cumulative = 0;
+            let selectedUrl = normalized[0].url;
+
+            for (const item of normalized) {
+            cumulative += item.weight;
+            if (rand <= cumulative) {
+                selectedUrl = item.url;
+                break;
+            }
+            }
+
+            // 3) Redirect and replace current URL
+            window.location.replace(selectedUrl);
+
+        
     </script>
 </body>
 </html>
